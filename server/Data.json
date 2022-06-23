@@ -1,0 +1,39 @@
+{
+	"data":[
+		{
+			"name":"src",
+			"children":[
+				{
+					"name":"file",
+					"children":[],
+					"type":"folder"
+				}
+			],
+			"type":"folder"
+		},
+		{
+			"name":"document",
+			"children":[
+				
+				{
+					"name":"json",
+					"children":[],
+					"type":"folder"
+				},
+				{
+					"name":"jinja",
+					"children":[
+						{
+							"name":"template.yaml",
+							"children":null,
+							"type":"file"
+						}
+					],
+					"type":"folder"
+				}
+			],
+			"type":"folder"
+		}
+		
+	]
+}

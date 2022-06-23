@@ -1,0 +1,33 @@
+.div-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.div-container>.div-style {
+  flex: 1 1 20%;
+  height: 50px;
+}
+
+.companynamestyle{
+	color: whitesmoke;
+	font-size: 25px;
+	margin-top: 25px;
+	margin-left: 20px;
+}
+.toolnamestyle{
+	color: whitesmoke;
+	font-size: 25px;
+	margin-top: 25px;
+	text-align: center;
+}
+.helpbtn{
+	color: whitesmoke;
+	margin-top: 35px;
+	text-decoration: underline;
+	text-align: right;
+	margin-right: 50px;
+}
+.myheader{
+	background-color: #216CA6;
+}
