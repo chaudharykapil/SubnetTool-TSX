@@ -1,0 +1,15 @@
+var settings = {
+  "url": http://ivapp1328347.devin3.ms.com:5001/allocate,
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+     "Content-Type": "application/json"
+  },
+  "data": JSON.stringify({"jinja2_file":"isg_ua.j2","variables":{"aggregates"}:["10.6.0.0/16"],"device_name":"yo06ua1r01","uplink_devices":["yo06ud1r01","yo06ud1r02"],"sysloc":"yo.bd.eu","vlans":[{"size":24,"id":100},{"size":24,"id":500},{"size":28,"id":1250}]}}),
+};
+$.ajax(settings).done(function (response){
+  console.log(response);
+});
+
+
+}

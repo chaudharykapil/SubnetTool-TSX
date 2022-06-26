@@ -5,8 +5,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import createElement from '../components/Elements';
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/ext-language_tools";
+import {settings} from "../components/settingfile"
 export default function MainScreen (){
-  
   const [filedata,setfiledata] = useState({})
   const [Data,setData] = useState([])
   const [filename,setfilename] = useState("")
@@ -14,7 +18,7 @@ export default function MainScreen (){
 		renderFile(e.name)
 	}
   useEffect(()=>{
-    fetch("http://127.0.0.1:8000/getfolderstructure").then(e=>{
+    fetch(settings["folderstructure"]["url"]).then(e=>{
       e.text().then(v=>{
         setData(JSON.parse(v)['data'])
        
@@ -43,7 +47,7 @@ export default function MainScreen (){
     });
   }
   function renderFile(filepath){
-		fetch("http://127.0.0.1:8000/getfiledata/"+filepath).then(res=>{
+		fetch(settings["filedata"]["url"]+filepath).then(res=>{
 			res.text().then(val=>{
         let jsn = JSON.parse(val)
         console.log(jsn["root"])
@@ -58,7 +62,7 @@ export default function MainScreen (){
               <Header />
           </div>
           <div className='flex flex-row h-full'>
-              <div className='flex w-1/3 bg-white-100 h-full'>
+              <div className='flex w-1/5 bg-white-100 h-full'>
                 <TreeView
                 aria-label="file system navigator"
                 defaultCollapseIcon={<ExpandMoreIcon />}
@@ -72,22 +76,48 @@ export default function MainScreen (){
               </div>
 
 
-              <div className='flex w-2/3 bg-blue-100 h-full justify-center items-center'>
-              <div className='flex flex-col justify-around h-full'>
-                <div className='text-lg text-center font-bold'>
-                  {filename}
+              <div className='flex w-2/5 bg-blue-100 h-full justify-center items-center'>
+                {filedata["root"]?
+                <div className='flex flex-col justify-around h-full'>
+                  <div className='text-lg text-center font-bold'>
+                    {filename}
+                  </div>
+                    {
+                      filedata["root"].map((element,idx) => {
+                        return createUI(element)
+                      })
+                    }
+                  <div className='flex justify-center'>
+                    <button className='border-solid border-2 border-black px-2 py-1 rounded-lg bg-blue-400' type='button'>Submit</button>
+                  </div>
                 </div>
-                {
-                  filedata["root"]?filedata["root"].map((element,idx) => {
-                    return createUI(element)
-                  }):null
-                }
-                <div className='flex justify-center'>
-                  <button className='border-solid border-2 border-black px-2 py-1 rounded-lg bg-blue-400' type='button'>Submit</button>
-                </div>
+                :null 
+                }     
               </div>
-                        
+
+              <div className='flex w-2/5 bg-blue-100 h-full '>
+                <AceEditor
+                placeholder="Placeholder Text"
+                theme="monokai"
+                name="blah2"
+                height='100%'
+                width='100%'
+                fontSize={14}
+                showPrintMargin={true}
+                showGutter={true}
+                wrapEnabled
+                highlightActiveLine={true}
+                value={JSON.stringify(filedata)}
+                setOptions={{
+                enableBasicAutocompletion: false,
+                enableLiveAutocompletion: false,
+                enableSnippets: false,
+                showLineNumbers: true,
+                tabSize: 2,
+                }}/>
+
               </div>
+
           </div>
       </div>
     )

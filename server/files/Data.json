@@ -22,11 +22,6 @@
 							"name":"config.yml",
 							"children":null,
 							"type":"file"
-						},
-						{
-							"name":"Data.json",
-							"children":null,
-							"type":"file"
 						}
 					],
 					"type":"folder"
