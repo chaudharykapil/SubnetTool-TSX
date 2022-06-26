@@ -7,6 +7,7 @@ import TreeItem from '@mui/lab/TreeItem';
 import createElement from '../components/Elements';
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 import {settings} from "../components/settingfile"
@@ -99,6 +100,7 @@ export default function MainScreen (){
                 <AceEditor
                 placeholder="Placeholder Text"
                 theme="monokai"
+                mode = "json"
                 name="blah2"
                 height='100%'
                 width='100%'
@@ -107,7 +109,7 @@ export default function MainScreen (){
                 showGutter={true}
                 wrapEnabled
                 highlightActiveLine={true}
-                value={JSON.stringify(filedata)}
+                value={!filedata["root"]?JSON.stringify(filedata, null, '\t'):""}
                 setOptions={{
                 enableBasicAutocompletion: false,
                 enableLiveAutocompletion: false,
