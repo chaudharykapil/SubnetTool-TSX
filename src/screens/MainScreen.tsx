@@ -15,6 +15,7 @@ export default function MainScreen (){
   const [filedata,setfiledata] = useState({})
   const [Data,setData] = useState([])
   const [filename,setfilename] = useState("")
+  const [inputData,setInput] = useState({})
 	function checkselect(e){
 		renderFile(e.name)
 	}
@@ -41,7 +42,10 @@ export default function MainScreen (){
   function createUI(data){
     if(!data["multiple"]){
       console.log(data["type"])
-      return <>{createElement(data["type"])}</>
+      return <>
+      <div className='font-bold text-lg '>{data["name"]}</div>
+      {createElement(data["type"],{"onChange":(e)=>SetInputData(e.target.value,data["name"])})}
+      </>
     }
     return data["valid_keys_in_items"].map((element,idx) => {
       return createUI(element)
@@ -54,8 +58,31 @@ export default function MainScreen (){
         console.log(jsn["root"])
 				setfiledata(jsn)
         setfilename(filepath)
+        let temp  = inputData
+        temp["file"] = filepath
+        temp["variables"] = {"aggregates":[],"vlans":[]}
+        setInput(temp)
 			})
 		})
+  }
+  function SetInputData(data,key){
+    let temp = inputData
+    if(key == "id" || key == "size"){
+      if(!temp["variables"]["vlans"][0]){temp["variables"]["vlans"][0] = {}}
+      temp["variables"]["vlans"][0][key] = data
+    }
+    else if(key == "aggregates"){
+      temp["variables"]["aggregates"][0] = data
+    }
+    else{
+      temp["variables"][key] = data
+    }
+    setInput(temp)
+    console.log(inputData)
+  }
+  function OnSubmit(){
+    setfiledata(inputData)
+
   }
     return (
       <div className='flex flex-col h-screen'>
@@ -89,7 +116,7 @@ export default function MainScreen (){
                       })
                     }
                   <div className='flex justify-center'>
-                    <button className='border-solid border-2 border-black px-2 py-1 rounded-lg bg-blue-400' type='button'>Submit</button>
+                    <button className='border-solid border-2 border-black px-2 py-1 rounded-lg bg-blue-400' type='button' onClick={()=>OnSubmit()}>Submit</button>
                   </div>
                 </div>
                 :null 
