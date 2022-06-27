@@ -6,6 +6,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import createElement from '../components/Elements';
 import AceEditor from "react-ace";
+import axios from "axios";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
@@ -20,11 +21,9 @@ export default function MainScreen (){
 		renderFile(e.name)
 	}
   useEffect(()=>{
-    fetch(settings["folderstructure"]["url"]).then(e=>{
-      e.text().then(v=>{
-        setData(JSON.parse(v)['data'])
-       
-      })
+    axios.get(settings["folderstructure"]["url"]).then(e=>{
+      let v= e.data
+      setData(v['data'])
     })
   },[])
 	function createTree(node){
@@ -52,17 +51,21 @@ export default function MainScreen (){
     });
   }
   function renderFile(filepath){
-		fetch(settings["filedata"]["url"]+filepath).then(res=>{
-			res.text().then(val=>{
-        let jsn = JSON.parse(val)
+		axios.get(settings["filedata"]["url"]+filepath).then(res=>{
+			  let jsn = res.data
         console.log(jsn["root"])
 				setfiledata(jsn)
         setfilename(filepath)
         let temp  = inputData
         temp["file"] = filepath
-        temp["variables"] = {"aggregates":[],"vlans":[]}
+        temp["variables"] = {
+          "aggregates":[],
+          "device_name":"",
+          "uplink_devices":"",
+          "sysloc":"",
+          "vlans":[]
+        }
         setInput(temp)
-			})
 		})
   }
   function SetInputData(data,key){
