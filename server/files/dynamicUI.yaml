@@ -1,0 +1,170 @@
+#option1: default value is false
+root:
+  - name: site_name
+    type: textbox
+  - name: user_aggregate
+    type: textarea
+  - name: oob_aggregate
+    type: textbox
+  - name: sysloc
+    type: textbox
+  - name: main_comms_room_device_name_prefix
+    type: textbox
+  - name: compartments
+    type: dict
+    valid_keys_in_items:
+      - name: ens_infra
+        type: textbox
+      - name: user
+        type: textbox
+      - name: server
+        type: textbox
+      - name: oob
+        type: textbox
+  - name: ce
+    type: dict
+    valid_keys_in_items: &domain_and_names
+      - name: domain_name
+        type: textbox
+      - name: names
+        type: textarea
+  - name: bc
+    type: dict
+    valid_keys_in_items:
+      - <<: *domain_and_names
+  - name: od
+    type: dict
+    valid_keys_in_items:
+      - name: domain_name
+        type: textbox
+      - name: od1_names
+        type: textbox
+      - name: domain_name
+        type: textbox
+      - name: od1_names
+        type: textbox
+      - name: od2_name
+        type: textbox
+      - name: ce1_names
+        type: textbox
+      - name: ce2_name
+        type: textbox
+      - name: vlans
+        type: dict
+        multiple: true
+        valid_key_in_items:
+          - name: size
+            type: textbox
+            validate: int
+          - name: id
+            type: textbox
+            validate: int
+          - name: id
+            type: textbox
+            validate: int
+          - name: type
+            type: textbox
+            optiona1: true
+  - name: ud
+    type: dict
+    valid_keys_in_items:
+      - name: 1
+        type: dict
+        valid_keys_in_items:
+          - <<: *domain_and_names
+      - option1: true
+      - name: 2
+        type: dict
+        valid_keys_in_items:
+          - <<: *domain_and_names
+      - option1: true
+      - name: 3
+        type: dict
+        valid_keys_in_items:
+          - <<: *domain_and_names
+      - option1: true
+      - name: 4
+        type: dict
+        valid_keys_in_items:
+          - <<: *domain_and_names
+      - option1: true
+      - name: 5
+        type: dict
+        valid_keys_in_items:
+          - <<: *domain_and_names
+      - option1: true
+      - name: 6
+        type: dict
+        valid_keys_in_items:
+          - <<: *domain_and_names
+      - option1: true
+  - name: fd
+    type: dict
+    valid_keys_in_items: &domain_and_names_and_vlans
+      - name: domain_name
+        type: textbox
+      - name: names
+        type: textarea
+      - name: vlans
+        type: dict
+        multiple: true
+        valid_keys_in_items:
+          - name: size
+            type: textbox
+            validate: int
+  - name: udwr
+    type: dict
+    valid_keys_in_items:
+      - <<: *domain_and_names_and_vlans
+  - name: ua
+    type: dict
+    valid_keys_in_items: &ua_valid_keys
+      - name: 1
+        type: dict
+        valid_keys_in_items:
+          - name: names
+            type: textarea
+        option1: true
+      - name: 2
+        type: dict
+        valid_keys_in_items:
+          - name: names
+            type: textarea
+        option1: true
+      - name: 3
+        type: dict
+        valid_keys_in_items:
+          - name: names
+            type: textarea
+        option1: true
+      - name: 4
+        type: dict
+        valid_keys_in_items:
+          - name: names
+            type: textarea
+        option1: true
+      - name: 5
+        type: dict
+        valid_keys_in_items:
+         - name: names
+           type: textarea
+        option1: true
+      - name: 6
+        type: dict
+        valid_keys_in_items:
+         - name: names
+           type: textarea
+           option1: true
+      - name: vlans
+        type: dict
+        multiple: true
+        valid_keys_in_items:
+          - name: size
+            type: textbox
+            validate: int
+          - name: id
+            type: textbox
+            validate: int
+  - name: be
+    type: dict
+    <<: *ua_valid_keys

@@ -38,6 +38,11 @@
 							"name":"template.yaml",
 							"children":null,
 							"type":"file"
+						},
+						{
+							"name":"dynamicUI.yaml",
+							"children":null,
+							"type":"file"
 						}
 					],
 					"type":"folder"

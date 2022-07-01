@@ -39,16 +39,17 @@ export default function MainScreen (){
 						</TreeItem>
 	}
   function createUI(data){
-    if(!data["multiple"]){
+    if(data["type"] != "dict"){
       console.log(data["type"])
-      return <>
-      <div className='font-bold text-lg '>{data["name"]}</div>
+      return <div className='flex flex-row my-2'>
+      <div className='font-bold text-lg break-all w-1/2'>{data["name"]}</div>
       {createElement(data["type"],{"onChange":(e)=>SetInputData(e.target.value,data["name"])})}
-      </>
+      </div>
     }
-    return data["valid_keys_in_items"].map((element,idx) => {
+    return data["valid_keys_in_items"] ? data["valid_keys_in_items"].map((element,idx) => {
       return createUI(element)
-    });
+    })
+    :null
   }
   function renderFile(filepath){
 		axios.get(settings["filedata"]["url"]+filepath).then(res=>{
@@ -107,9 +108,9 @@ export default function MainScreen (){
               </div>
 
 
-              <div className='flex w-2/5 bg-blue-100 h-full justify-center items-center'>
+              <div className='flex w-2/5 bg-blue-100 h-full justify-center items-center overflow-scroll pt-10'>
                 {filedata["root"]?
-                <div className='flex flex-col justify-around h-full'>
+                <div className='flex flex-col h-full'>
                   <div className='text-lg text-center font-bold'>
                     {filename}
                   </div>

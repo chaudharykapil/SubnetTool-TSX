@@ -6,16 +6,16 @@ const Elements = {
 }
 
 export default function createElement(type,data=null){
-    if(type === "textarea"){
-        return <input onChange={data["onChange"]}></input>
+    if(type == "textbox"){
+        return <input onChange={data["onChange"]} />
     }
-    else if(type === "textbox"){
+    else if(type == "textarea"){
         return <textarea onChange={data["onChange"]}></textarea>
     }
-    else if(type === "button"){
+    else if(type == "button"){
         return <button></button>
     }
-    else if(type === "div"){
+    else if(type == "div"){
         return <div></div>
     }
     else{
