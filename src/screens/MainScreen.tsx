@@ -38,16 +38,16 @@ export default function MainScreen (){
 							}
 						</TreeItem>
 	}
-  function createUI(data){
+  function createUI(data,name){
     if(data["type"] != "dict"){
       console.log(data["type"])
       return <div className='flex flex-row my-2'>
-      <div className='font-bold text-lg break-all w-1/2'>{data["name"]}</div>
-      {createElement(data["type"],{"onChange":(e)=>SetInputData(e.target.value,data["name"])})}
+      <div className='font-bold text-lg break-all w-2/3'>{data["name"]}</div>
+      <div className='w-1/3'>{createElement(data["type"],{"onChange":(e)=>SetInputData(e.target.value,data,name)})}</div>
       </div>
     }
-    return data["multiple"] ? data["valid_keys_in_items"].map((element,idx) => {
-      return createUI(element)
+    return data["multiple"] ? data["valid_keys_in_items"].map((element,idx) => {  
+      return createUI(element,data["name"])
     })
     :null
   }
@@ -60,22 +60,18 @@ export default function MainScreen (){
         let temp  = inputData
         temp["file"] = filepath
         temp["variables"] = {
-          
         }
         setInput(temp)
 		})
   }
-  function SetInputData(data,key){
+  function SetInputData(value,data,name){
     let temp = inputData
-    if(key == "id" || key == "size"){
-      if(!temp["variables"]["vlans"][0]){temp["variables"]["vlans"][0] = {}}
-      temp["variables"]["vlans"][0][key] = data
-    }
-    else if(key == "aggregates"){
-      temp["variables"]["aggregates"][0] = data
+    if(data["type"] == "dict" && name){
+      temp["variables"][name] = []
+      temp["variables"][name][0][data["name"]] = value
     }
     else{
-      temp["variables"][key] = data
+      temp["variables"][data["name"]] = value
     }
     setInput(temp)
     console.log(inputData)
@@ -112,7 +108,7 @@ export default function MainScreen (){
                   </div>
                     {
                       filedata["root"].map((element,idx) => {
-                        return createUI(element)
+                        return createUI(element,null)
                       })
                     }
                   <div className='flex justify-center'>
