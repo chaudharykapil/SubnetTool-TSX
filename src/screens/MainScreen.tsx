@@ -46,7 +46,7 @@ export default function MainScreen (){
       {createElement(data["type"],{"onChange":(e)=>SetInputData(e.target.value,data["name"])})}
       </div>
     }
-    return data["valid_keys_in_items"] ? data["valid_keys_in_items"].map((element,idx) => {
+    return data["multiple"] ? data["valid_keys_in_items"].map((element,idx) => {
       return createUI(element)
     })
     :null
@@ -60,11 +60,7 @@ export default function MainScreen (){
         let temp  = inputData
         temp["file"] = filepath
         temp["variables"] = {
-          "aggregates":[],
-          "device_name":"",
-          "uplink_devices":"",
-          "sysloc":"",
-          "vlans":[]
+          
         }
         setInput(temp)
 		})
@@ -148,9 +144,7 @@ export default function MainScreen (){
                 showLineNumbers: true,
                 tabSize: 2,
                 }}/>
-
               </div>
-
           </div>
       </div>
     )
