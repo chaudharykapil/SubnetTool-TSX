@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useRef } from 'react'
 import Header from '../components/Header'
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -14,9 +14,10 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import {settings} from "../components/settingfile"
 export default function MainScreen (){
   const [filedata,setfiledata] = useState({})
+  const [UIData,setUIData] = useState({})
   const [Data,setData] = useState([])
   const [filename,setfilename] = useState("")
-  const [inputData,setInput] = useState({})
+  let inputData = useRef({})
 	function checkselect(e){
 		renderFile(e.name)
 	}
@@ -54,18 +55,20 @@ export default function MainScreen (){
   function renderFile(filepath){
 		axios.get(settings["filedata"]["url"]+filepath).then(res=>{
 			  let jsn = res.data
-        console.log(jsn["root"])
+        if(jsn["root"]){
+          setUIData(jsn)
+        }
 				setfiledata(jsn)
         setfilename(filepath)
-        let temp  = inputData
+        let temp  = inputData.current
         temp["file"] = filepath
         temp["variables"] = {
         }
-        setInput(temp)
+        inputData.current = temp
 		})
   }
   function SetInputData(value,data,name){
-    let temp = inputData
+    let temp = inputData.current
     if(data["type"] == "dict" && name){
       temp["variables"][name] = []
       temp["variables"][name][0][data["name"]] = value
@@ -73,7 +76,7 @@ export default function MainScreen (){
     else{
       temp["variables"][data["name"]] = value
     }
-    setInput(temp)
+    inputData.current = temp
     console.log(inputData)
   }
   function OnSubmit(){
@@ -101,13 +104,13 @@ export default function MainScreen (){
 
 
               <div className='flex w-2/5 bg-blue-100 h-full justify-center items-center overflow-scroll pt-10'>
-                {filedata["root"]?
+                {UIData["root"]?
                 <div className='flex flex-col h-full'>
                   <div className='text-lg text-center font-bold'>
                     {filename}
                   </div>
                     {
-                      filedata["root"].map((element,idx) => {
+                      UIData["root"].map((element,idx) => {
                         return createUI(element,null)
                       })
                     }
